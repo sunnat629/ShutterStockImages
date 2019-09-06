@@ -10,13 +10,29 @@ package dev.sunnat629.shutterstockimages.ui
  * @since   8 September 2019
  */
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import dev.sunnat629.shutterstockimages.R
+import dev.sunnat629.shutterstockimages.RootApplication
+import dev.sunnat629.shutterstockimages.models.api.repositories.AuthRepository
+import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
+import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var imageRepository: ImageRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        RootApplication.getComponent(application).inject(this)
+
     }
 }
