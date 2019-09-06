@@ -1,7 +1,7 @@
 package dev.sunnat629.shutterstockimages.models.entities
 
 /**
- * Thumbskt
+ * Thumbs.kt
  * This class contains the size and raw image url.
  *
  * @param height is the height of this image,

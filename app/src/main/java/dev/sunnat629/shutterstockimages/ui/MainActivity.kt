@@ -9,6 +9,7 @@ package dev.sunnat629.shutterstockimages.ui
  * @version 1.0
  * @since   8 September 2019
  */
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dev.sunnat629.shutterstockimages.R
