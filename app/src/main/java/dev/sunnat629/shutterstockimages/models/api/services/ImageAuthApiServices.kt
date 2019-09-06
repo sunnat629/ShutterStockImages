@@ -1,13 +1,13 @@
 package dev.sunnat629.shutterstockimages.models.api.services
 
+import dev.sunnat629.shutterstockimages.models.entities.ImagesSearch
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.Path
 
-interface AuthApiServices {
+interface ImageAuthApiServices {
 
-    @GET("/v2/test")
+    @GET("/v2/images/search")
     @Headers("Content-Type: application/json")
-    suspend fun testAPI(): Response<String>
+    suspend fun getImages(): Response<ImagesSearch>
 }

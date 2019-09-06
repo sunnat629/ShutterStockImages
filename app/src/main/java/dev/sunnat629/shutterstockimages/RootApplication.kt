@@ -1,8 +1,6 @@
 package dev.sunnat629.shutterstockimages
 
 import android.app.Application
-import android.content.Context
-import dagger.android.support.DaggerAppCompatActivity
 import dev.sunnat629.shutterstockimages.di.components.AppComponent
 import dev.sunnat629.shutterstockimages.di.components.DaggerAppComponent
 import timber.log.Timber

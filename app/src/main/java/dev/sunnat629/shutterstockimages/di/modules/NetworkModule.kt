@@ -2,6 +2,8 @@ package dev.sunnat629.shutterstockimages.di.modules
 
 import dagger.Module
 import dagger.Provides
+import dev.sunnat629.shutterstockimages.di.scopes.Authorized
+import dev.sunnat629.shutterstockimages.di.scopes.UnAuthorized
 import dev.sunnat629.shutterstockimages.models.networks.BasicAuthInterceptor
 import dev.sunnat629.shutterstockimages.models.networks.RetrofitFactory
 import okhttp3.OkHttpClient
@@ -25,6 +27,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
+    @Authorized
     fun provideAuthOkHttpClient(
         clientBuilder: OkHttpClient.Builder,
         basicAuthInterceptor: BasicAuthInterceptor
@@ -36,7 +39,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    @Authorized
+    fun provideAuthRetrofit(@Authorized okHttpClient: OkHttpClient): Retrofit {
+        return RetrofitFactory.createRetrofit(okHttpClient)
+    }
+
+    @Provides
+    @Singleton
+    @UnAuthorized
+    fun provideOkHttpClient(
+        clientBuilder: OkHttpClient.Builder
+    ): OkHttpClient {
+        return clientBuilder
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @UnAuthorized
+    fun provideRetrofit(@UnAuthorized okHttpClient: OkHttpClient): Retrofit {
         return RetrofitFactory.createRetrofit(okHttpClient)
     }
 }

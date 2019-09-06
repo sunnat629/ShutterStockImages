@@ -5,7 +5,6 @@ import dagger.BindsInstance
 import dagger.Component
 import dev.sunnat629.shutterstockimages.di.modules.NetworkModule
 import dev.sunnat629.shutterstockimages.di.modules.RepositoryModule
-import dev.sunnat629.shutterstockimages.di.modules.StorageModule
 import dev.sunnat629.shutterstockimages.ui.MainActivity
 import javax.inject.Singleton
 
@@ -13,8 +12,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         NetworkModule::class,
-        RepositoryModule::class,
-        StorageModule::class
+        RepositoryModule::class
     ]
 )
 interface AppComponent {
