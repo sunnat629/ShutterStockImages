@@ -5,13 +5,13 @@ package dev.sunnat629.shutterstockimages.models.entities
  * This class contains the images.
  *
  * @param preview has the default size of the image,
- * @param smallThumb has the smaller size of the image,
- * @param largeThumb has the large size of the image,
- * @param hugeThumb has the huge or biggest size of the image.
+ * @param small_thumb has the smaller size of the image,
+ * @param large_thumb has the large size of the image,
+ * @param huge_thumb has the huge or biggest size of the image.
  * */
 data class Assets (
     private val preview: Thumbs,
-    private val smallThumb: Thumbs,
-    private val largeThumb: Thumbs,
-    private val hugeThumb: Thumbs
+    private val small_thumb: Thumbs,
+    private val large_thumb: Thumbs,
+    private val huge_thumb: Thumbs
 )
