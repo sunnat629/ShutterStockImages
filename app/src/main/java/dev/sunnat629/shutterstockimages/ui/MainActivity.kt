@@ -10,12 +10,11 @@ package dev.sunnat629.shutterstockimages.ui
  * @since   8 September 2019
  */
 import android.os.Bundle
-import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.RootApplication
-import dev.sunnat629.shutterstockimages.models.api.repositories.AuthRepository
 import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
+import dev.sunnat629.shutterstockimages.models.api.repositories.UnAuthRepository
 import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -28,11 +27,24 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var imageRepository: ImageRepository
 
+    @Inject
+    lateinit var unAuthRepository: UnAuthRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         RootApplication.getComponent(application).inject(this)
 
+        GlobalScope.launch(Dispatchers.Main) {
+            when (val result = imageRepository.getImages()) {
+                is NetworkResult.Success -> {
+                    Timber.tag("ASDF").d(result.data.toString())
+                }
+                is NetworkResult.Error -> {
+                    Timber.tag("ASDF").e(result.exception)
+                }
+            }
+        }
     }
 }
