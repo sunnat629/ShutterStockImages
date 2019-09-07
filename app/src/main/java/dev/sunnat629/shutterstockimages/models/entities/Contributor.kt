@@ -7,5 +7,5 @@ package dev.sunnat629.shutterstockimages.models.entities
  * @param id is the id number of the contributor.
  * */
 data class Contributor(
-    private val id: String
+    val id: String
 )

@@ -14,6 +14,13 @@ sealed class NetworkResult<out T : Any> {
     data class Success<out T : Any>(val data: T) : NetworkResult<T>()
 
     /**
+     * This class will call during fetching the data from server.
+     * It contains the error message.
+     * @param exception is the message why the fetch failed
+     * */
+    data class Loading(val exception: String) : NetworkResult<Nothing>()
+
+    /**
      * This class will call if there is any error during fetching the data from server.
      * It contains the error message.
      * @param exception is the message why the fetch failed

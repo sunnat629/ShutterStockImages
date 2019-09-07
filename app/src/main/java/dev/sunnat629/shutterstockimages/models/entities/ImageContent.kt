@@ -16,12 +16,12 @@ package dev.sunnat629.shutterstockimages.models.entities
  * @param url is the URL link of this image in the ShutterStock site.
  * */
 data class ImageContent(
-    private val id: String,
-    private val aspect: Double,
-    private val assets: Assets,
-    private val contributor: Contributor,
-    private val description: String,
-    private val image_type: String,
-    private val media_type: String,
-    private val url: String
+    val id: String,
+    val aspect: Double,
+    val assets: Assets,
+    val contributor: Contributor,
+    val description: String,
+    val image_type: String,
+    val media_type: String,
+    val url: String
 )

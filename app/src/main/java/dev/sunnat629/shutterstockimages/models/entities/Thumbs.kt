@@ -9,7 +9,7 @@ package dev.sunnat629.shutterstockimages.models.entities
  * @param width is the width of this image.
  * */
 data class Thumbs(
-    private val height: Int,
-    private val url: String,
-    private val width: Int
+    val height: Int,
+    val url: String,
+    val width: Int
 )

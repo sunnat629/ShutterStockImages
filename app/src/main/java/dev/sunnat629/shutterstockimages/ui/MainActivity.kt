@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         RootApplication.getComponent(application).inject(this)
 
         GlobalScope.launch(Dispatchers.Main) {
-            when (val result = imageRepository.getImages()) {
+            when (val result = imageRepository.getImages(2)) {
                 is NetworkResult.Success -> {
                     Timber.tag("ASDF").d(result.data.toString())
                 }
