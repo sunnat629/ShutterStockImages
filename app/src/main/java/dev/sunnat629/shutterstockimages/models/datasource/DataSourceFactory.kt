@@ -2,27 +2,28 @@ package dev.sunnat629.shutterstockimages.models.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import androidx.paging.PageKeyedDataSource
 import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
-import dev.sunnat629.shutterstockimages.models.entities.ImageSearch
+import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import kotlinx.coroutines.CoroutineScope
+import timber.log.Timber
 
 /**
- * Created by Ahmed Abd-Elmeged on 2/20/2018.
- *
  * A simple data source factory which also provides a way to observe the last created data source.
  * This allows us to channel its network request status etc back to the UI. See the Listing creation
  * in the Repository class.
  */
-class UsersDataSourceFactory(
+class DataSourceFactory(
     private val scope: CoroutineScope,
     private val imageRepository: ImageRepository
-) : DataSource.Factory<Int, ImageSearch>() {
+) : DataSource.Factory<Int, ImageContent>() {
 
-    val usersDataSourceLiveData = MutableLiveData<UsersDataSource>()
+    val imageContents = MutableLiveData<PageKeyedDataSource<Int, ImageContent>>()
 
-    override fun create(): DataSource<Int, ImageSearch> {
-        val usersDataSource = UsersDataSource(scope, imageRepository)
-        usersDataSourceLiveData.postValue(usersDataSource)
+    override fun create(): DataSource<Int, ImageContent> {
+        val usersDataSource = ImageDataSource(scope, imageRepository)
+        imageContents.postValue(usersDataSource)
+
         return usersDataSource
     }
 

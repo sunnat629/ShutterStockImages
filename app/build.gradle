@@ -28,13 +28,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     // androidx & ktx
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation "androidx.core:core-ktx:${versions.ktx}"
-    implementation "androidx.core:core:${versions.androidxCore}"
-
-    // android architecture components
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "androidx.core:core-ktx:${versions.appcompat}"
+    implementation "androidx.core:core:${versions.appcompat}"
+
+    // android lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-livedata-core:${versions.lifecycle}"
@@ -65,6 +66,9 @@ dependencies {
     // Anko - for toast
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
 
+    // picasso
+    implementation "com.squareup.picasso:picasso:${versions.picasso}"
+
     // dagger
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
@@ -73,6 +77,6 @@ dependencies {
     // testing
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testCore}"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.nhaarman_mockitokotlin2}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.nhaarman_mockito}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
 }
