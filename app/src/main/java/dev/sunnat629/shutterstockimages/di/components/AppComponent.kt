@@ -3,7 +3,7 @@ package dev.sunnat629.shutterstockimages.di.components
 import android.app.Application
 import dagger.BindsInstance
 import dagger.Component
-import dev.sunnat629.shutterstockimages.di.modules.CoRoutinesModule
+import dev.sunnat629.shutterstockimages.di.modules.OthersModule
 import dev.sunnat629.shutterstockimages.di.modules.NetworkModule
 import dev.sunnat629.shutterstockimages.di.modules.RepositoryModule
 import dev.sunnat629.shutterstockimages.ui.MainActivity
@@ -15,7 +15,7 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         RepositoryModule::class,
-        CoRoutinesModule::class
+        OthersModule::class
     ]
 )
 interface AppComponent {

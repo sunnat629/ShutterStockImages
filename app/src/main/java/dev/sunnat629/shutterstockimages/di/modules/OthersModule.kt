@@ -13,7 +13,7 @@ import javax.inject.Singleton
     includes = [
         RepositoryModule::class]
 )
-class CoRoutinesModule {
+class OthersModule {
 
     @Provides
     @Singleton
