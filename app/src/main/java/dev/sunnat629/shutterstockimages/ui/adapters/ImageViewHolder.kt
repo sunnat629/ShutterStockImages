@@ -13,9 +13,13 @@ import kotlinx.android.synthetic.main.list_items.view.*
 class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindTo(imageSearch: ImageContent?) {
-        Picasso.get()
-            .load(imageSearch?.assets?.preview?.url)
-            .into(itemView.image)
+            imageSearch?.assets?.preview?.let {
+            Picasso.get()
+                .load(it.url)
+                .placeholder(R.mipmap.ic_launcher)
+                .resize(it.width, it.height)
+                .into(itemView.image)
+        }
     }
 
     companion object {

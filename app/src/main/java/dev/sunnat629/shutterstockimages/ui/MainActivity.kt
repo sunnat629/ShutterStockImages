@@ -13,24 +13,19 @@ package dev.sunnat629.shutterstockimages.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.RootApplication
 import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
-import dev.sunnat629.shutterstockimages.models.api.repositories.UnAuthRepository
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
-import dev.sunnat629.shutterstockimages.models.entities.ImageSearch
-import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import dev.sunnat629.shutterstockimages.models.networks.Status
 import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,11 +34,13 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var imageRepository: ImageRepository
 
-    @Inject
-    lateinit var unAuthRepository: UnAuthRepository
-
     private lateinit var viewModel: MainViewModel
     private lateinit var imageAdapter: ImageAdapter
+
+    private lateinit var initialLoadObserver: Observer<NetworkState>
+    private lateinit var networkStateObserver: Observer<NetworkState>
+    private lateinit var imageSearchObserver: Observer<PagedList<ImageContent>>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,40 +49,47 @@ class MainActivity : AppCompatActivity() {
         RootApplication.getComponent(application).inject(this)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+        initObservers()
         initAdapter()
-//        initSwipeToRefresh()
     }
 
-//    private fun initSwipeToRefresh() {
-//        viewModel.getRefreshState().observe(this, Observer { networkState ->
-//            if (imageAdapter.currentList != null) {
-//                if (imageAdapter.currentList!!.size > 0) {
-//                    usersSwipeRefreshLayout.isRefreshing =
-//                        networkState?.status == NetworkState.LOADING.status
-//                } else {
-//                    setInitialLoadingState(networkState)
-//                }
-//            } else {
-//                setInitialLoadingState(networkState)
-//            }
-//        })
-//        usersSwipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
-//    }
+    private fun initObservers() {
+        initialLoadObserver = Observer {
+            if (imageAdapter.currentList.isNullOrEmpty()) {
+                setInitialLoadingState(it)
+            }
+            imageAdapter.currentList?.let { imageList ->
+                if (imageList.size > 0) {
+                    setInitialLoadingState(it)
+                }
+            }
+        }
+
+        imageSearchObserver = Observer {
+            imageAdapter.submitList(it)
+        }
+
+        networkStateObserver = Observer {
+            imageAdapter.setNetworkState(it)
+        }
+
+
+        viewModel.getNetworkState().observe(this, networkStateObserver)
+
+        viewModel.getInitialLoad().observe(this, initialLoadObserver)
+
+        viewModel.imageSearchList.observe(this, imageSearchObserver)
+    }
 
     private fun initAdapter() {
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         imageAdapter = ImageAdapter {
             viewModel.retry()
         }
-        usersRecyclerView.layoutManager = linearLayoutManager
-        usersRecyclerView.adapter = imageAdapter
-        usersRecyclerView.recycledViewPool
 
-        viewModel.imageSearchList.observe(this, Observer<PagedList<ImageContent>> {
-            imageAdapter.submitList(it)
-        })
-//        viewModel.getNetworkState()
-//            .observe(this, Observer<NetworkState> { imageAdapter.setNetworkState(it) })
+        image_recycler_view.layoutManager = linearLayoutManager
+        image_recycler_view.adapter = imageAdapter
+        image_recycler_view.recycledViewPool
     }
 
     private fun setInitialLoadingState(networkState: NetworkState?) {
@@ -102,7 +106,13 @@ class MainActivity : AppCompatActivity() {
         loadingProgressBar.visibility =
             if (networkState?.status == Status.RUNNING) View.VISIBLE else View.GONE
 
-//        usersSwipeRefreshLayout.isEnabled = networkState?.status == Status.SUCCESS
         retryLoadingButton.setOnClickListener { viewModel.retry() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.getInitialLoad().removeObservers(this)
+        viewModel.imageSearchList.removeObservers(this)
+        viewModel.getNetworkState().removeObservers(this)
     }
 }

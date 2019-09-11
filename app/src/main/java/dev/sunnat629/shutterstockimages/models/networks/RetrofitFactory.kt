@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
 
-    fun createUnauthorizedClientBuilder(): OkHttpClient.Builder {
+    fun createClientBuilder(): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)

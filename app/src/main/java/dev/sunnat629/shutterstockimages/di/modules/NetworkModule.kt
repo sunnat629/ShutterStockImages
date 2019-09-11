@@ -2,8 +2,8 @@ package dev.sunnat629.shutterstockimages.di.modules
 
 import dagger.Module
 import dagger.Provides
-import dev.sunnat629.shutterstockimages.di.scopes.Authorized
-import dev.sunnat629.shutterstockimages.di.scopes.UnAuthorized
+import dev.sunnat629.shutterstockimages.di.Authorized
+import dev.sunnat629.shutterstockimages.di.UnAuthorized
 import dev.sunnat629.shutterstockimages.models.networks.BasicAuthInterceptor
 import dev.sunnat629.shutterstockimages.models.networks.RetrofitFactory
 import okhttp3.OkHttpClient
@@ -16,7 +16,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideClientBuilder(): OkHttpClient.Builder {
-        return RetrofitFactory.createUnauthorizedClientBuilder()
+        return RetrofitFactory.createClientBuilder()
     }
 
     @Provides

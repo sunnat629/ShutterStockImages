@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/usersRecyclerView"
+        android:id="@+id/image_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="12dp"
@@ -22,21 +21,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_items" />
 
-
-    <!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--        android:id="@+id/usersSwipeRefreshLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
-
-<!--    <include-->
-<!--        layout="@layout/item_network_state"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/usersSwipeRefreshLayout" />-->
+    <include
+        layout="@layout/item_network_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image_recycler_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

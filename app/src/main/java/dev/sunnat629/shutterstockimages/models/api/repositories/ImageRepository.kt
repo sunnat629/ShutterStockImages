@@ -5,7 +5,7 @@ import dev.sunnat629.shutterstockimages.models.entities.ImageSearch
 import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
 import javax.inject.Inject
 
-open class ImageRepository @Inject constructor(private val imageApiServices: ImageAuthApiServices): BaseRepository() {
+class ImageRepository @Inject constructor(private val imageApiServices: ImageAuthApiServices): BaseRepository() {
 
     suspend fun getImages(page: Int): NetworkResult<ImageSearch> {
         return safeApiCall(call = {imageApiServices.getImages(page)})
