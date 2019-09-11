@@ -10,7 +10,7 @@ import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.ERROR
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADING
-import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.SUCCEED
+import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADED
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -59,24 +59,28 @@ class ImageDataSource(
                 is NetworkResult.Success -> {
                     Timber.tag("ASDF").d("loadInitial ${FIRST_PAGE + 1}")
                     callback.onResult(result.data.imageContent, null, FIRST_PAGE + 1)
-                    _networkState.postValue(SUCCEED)
-                    _initialLoad.postValue(SUCCEED)
+                    setNetworkState(LOADED)
                 }
 
                 is NetworkResult.Error -> {
                     retry = {
                         loadInitial(params, callback)
                     }
-                    _networkState.postValue(ERROR(result.exception))
-                    _initialLoad.postValue(ERROR(result.exception))
+                    setNetworkState(ERROR(result.exception))
                 }
 
                 is NetworkResult.NoInternet -> {
                     retry = {
                         loadInitial(params, callback)
                     }
-                    _networkState.postValue(ERROR(result.exception))
-                    _initialLoad.postValue(ERROR(result.exception))
+                    setNetworkState(ERROR(result.message))
+                }
+
+                is NetworkResult.RateLimit -> {
+                    retry = {
+                        loadInitial(params, callback)
+                    }
+                    setNetworkState(ERROR(result.message))
                 }
             }
         }
@@ -90,27 +94,35 @@ class ImageDataSource(
 
                 is NetworkResult.Success -> {
                     callback.onResult(result.data.imageContent, key)
-                    _networkState.postValue(SUCCEED)
-                    _initialLoad.postValue(SUCCEED)
+                    setNetworkState(LOADED)
                 }
 
                 is NetworkResult.Error -> {
                     retry = {
                         loadAfter(params, callback)
                     }
-                    _networkState.postValue(ERROR(result.exception))
-                    _initialLoad.postValue(ERROR(result.exception))
+                    setNetworkState(ERROR(result.exception))
                 }
-
 
                 is NetworkResult.NoInternet -> {
                     retry = {
                         loadAfter(params, callback)
                     }
-                    _networkState.postValue(ERROR(result.exception))
-                    _initialLoad.postValue(ERROR(result.exception))
+                    setNetworkState(ERROR(result.message))
+                }
+
+                is NetworkResult.RateLimit -> {
+                    retry = {
+                        loadAfter(params, callback)
+                    }
+                    setNetworkState(ERROR(result.message))
                 }
             }
         }
+    }
+
+    private fun setNetworkState(networkState: NetworkState) {
+        _networkState.postValue(networkState)
+        _initialLoad.postValue(networkState)
     }
 }

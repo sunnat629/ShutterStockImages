@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
-import dev.sunnat629.shutterstockimages.models.entities.ImageSearch
 import java.util.*
 
 
@@ -35,7 +34,7 @@ class ImageAdapter(private val retryCallback: () -> Unit) :
     }
 
     private fun hasExtraRow(): Boolean {
-        return networkState != null && networkState !== NetworkState.SUCCEED
+        return networkState != null && networkState !== NetworkState.LOADED
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -59,8 +58,8 @@ class ImageAdapter(private val retryCallback: () -> Unit) :
      * @param newNetworkState the new network state
      */
     fun setNetworkState(newNetworkState: NetworkState) {
-        if (currentList != null) {
-            if (currentList!!.size != 0) {
+        if (!currentList.isNullOrEmpty()) {
+            currentList?.size.let {
                 val previousState = this.networkState
                 val hadExtraRow = hasExtraRow()
                 this.networkState = newNetworkState

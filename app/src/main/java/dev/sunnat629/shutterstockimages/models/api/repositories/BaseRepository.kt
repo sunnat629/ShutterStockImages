@@ -21,11 +21,11 @@ open class BaseRepository {
                 NetworkResult.Success(call.invoke().body()!!)
             } else {
                 Timber.tag(BASE_REPOSITORY).e("${call.invoke().code()}: ${call.invoke().message()}")
-                NetworkResult.Error("${call.invoke().code()}: ${call.invoke().message()}")
+                NetworkResult.Error(call.invoke().message())
             }
         } catch (ioException: IOException) {
             Timber.tag(BASE_REPOSITORY).e("ioException: ${ioException.message}")
-            return NetworkResult.NoInternet("$ioException: ${ioException.message}")
+            return NetworkResult.NoInternet("${ioException.message}")
         }
     }
 }

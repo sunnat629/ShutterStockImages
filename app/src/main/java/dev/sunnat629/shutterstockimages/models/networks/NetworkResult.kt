@@ -30,7 +30,7 @@ sealed class NetworkResult<out T : Any> {
     /**
      * This class will call if the application exceeds its limit.
      * It contains the error message.
-     * @param exception mentions that the application exceeds its limit.
+     * @param message mentions that the application exceeds its limit.
      * */
-    data class NoInternet(val exception: String) : NetworkResult<Nothing>()
+    data class NoInternet(val message: String) : NetworkResult<Nothing>()
 }
