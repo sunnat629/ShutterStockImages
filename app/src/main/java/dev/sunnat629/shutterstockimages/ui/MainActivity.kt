@@ -55,14 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initObservers() {
         initialLoadObserver = Observer {
-            if (imageAdapter.currentList.isNullOrEmpty()) {
                 setInitialLoadingState(it)
-            }
-            imageAdapter.currentList?.let { imageList ->
-                if (imageList.size > 0) {
-                    setInitialLoadingState(it)
-                }
-            }
         }
 
         imageSearchObserver = Observer {
@@ -103,8 +96,17 @@ class MainActivity : AppCompatActivity() {
         //loading and retry
         retryLoadingButton.visibility =
             if (networkState?.status == Status.FAILED) View.VISIBLE else View.GONE
+
         loadingProgressBar.visibility =
             if (networkState?.status == Status.RUNNING) View.VISIBLE else View.GONE
+
+        imageAdapter.currentList?.let { imageList ->
+            if (imageList.size > 0) {
+                retryLoadingButton.visibility = View.GONE
+                loadingProgressBar.visibility = View.GONE
+                errorMessageTextView.visibility = View.GONE
+            }
+        }
 
         retryLoadingButton.setOnClickListener { viewModel.retry() }
     }
