@@ -1,10 +1,6 @@
 # ShutterStockImages
 
 #### Todo
-- JsonProperty
-- ViewModel
-- RecyclerView
-- infinite scroll
 - RxJava, RxAndroid
 - Koin
 - UI
