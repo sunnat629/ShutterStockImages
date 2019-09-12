@@ -1,13 +1,14 @@
 package dev.sunnat629.shutterstockimages.ui
 
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.RootApplication
 import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var initialLoadObserver: Observer<NetworkState>
     private lateinit var networkStateObserver: Observer<NetworkState>
     private lateinit var imageSearchObserver: Observer<PagedList<ImageContent>>
+
+    private lateinit var gridLayoutManager: GridLayoutManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             imageAdapter.setNetworkState(it)
         }
 
-
         viewModel.getNetworkState().observe(this, networkStateObserver)
         viewModel.getInitialLoad().observe(this, initialLoadObserver)
         viewModel.imageSearchList.observe(this, imageSearchObserver)
@@ -86,12 +88,12 @@ class MainActivity : AppCompatActivity() {
      * @see initAdapter initiate all the recycleView and adapter
      * */
     private fun initAdapter() {
-        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        initGridLayoutManager(resources.configuration)
         imageAdapter = ImageAdapter {
             viewModel.retry()
         }
 
-        image_recycler_view.layoutManager = linearLayoutManager
+        image_recycler_view.layoutManager = gridLayoutManager
         image_recycler_view.adapter = imageAdapter
         image_recycler_view.recycledViewPool
     }
@@ -124,6 +126,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        initGridLayoutManager(newConfig)
+    }
+
+    /**
+     * This function will initiate the GridLayoutManager according to the device orientation
+     *
+     * @param orientation is the Configuration of this application
+     *
+     * @see Configuration.ORIENTATION_LANDSCAPE we use two images per raw of the RecyclerView
+     * @see Configuration.ORIENTATION_PORTRAIT we use one image per raw of the RecyclerView
+     * */
+    private fun initGridLayoutManager(orientation: Configuration) {
+        if (orientation.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = GridLayoutManager(this, 2)
+        } else if (orientation.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager = GridLayoutManager(this, 1)
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
