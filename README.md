@@ -1,11 +1,39 @@
 # ShutterStockImages
-
-#### Todo
-- RxJava, RxAndroid
-- Koin
-- UI
+This project is using [Shutterstock API](http://api.shutterstock.com/) and showing in a infinite scroll view using RecycleView.
 
 
-#### Extra URL -
-- Json reader - https://jsoneditoronline.org/
-- Json to Pojo - http://www.jsonschema2pojo.org/
+## Get API Keys & Secrets
+Using two types of Keys & Secrets. One is for Co-Routines and another is for RxJava
+
+## Technical choices
+- **Android JetPack:** Android Jetpack is a set of components, tools and guidance to make great Android apps. For more details, visit [HERE](https://developer.android.com/jetpack)
+- **AndroidX:** It removes all the dependencies of the Support Library means now there will be no implact or no need to change the versions according to the SDK versions. For more details, visit [HERE](https://developer.android.com/jetpack/androidx)
+- **Language:** This app is developed on 100% Kotlin (v1.3.51) which is one of the strongest recommened by JetPack to use Kotlin. For more details, visit [HERE](https://developer.android.com/kotlin/ktx.html)
+- **MvvM:** The archtechture of this app is view model. This is the latest and recommended architechture for android. MVVM uses data binding and is therefore a more event driven architecture. It can map many views to one view model. Like many fragments or activities can use one viewmodel and also the same values without detroying/loosing them. In MVVM, the view model has no reference to the view. Testing becomes easy after using it. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/viewmodel).
+- **LiveData:** LiveData is an observable data holder class. Unlike a regular observable, LiveData is lifecycle-aware, meaning it respects the lifecycle of other app components, such as activities, fragments, or services. This awareness ensures LiveData only updates app component observers that are in an active lifecycle state. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/livedata).
+- **Paging:** The Paging Library helps you load and display small chunks of data at a time. Loading partial data on demand reduces usage of network bandwidth and system resources. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/paging/).
+- **Dagger2:** 
+- **RxJava+RxAndroid:** 
+- **Co-Coutines:** 
+- **Picasso:**
+- **Retrofit:**
+- **OkHttp:**
+- **Mockito:**
+- **Espresso:**
+- **Timber:** 
+- **Material Design:** 
+
+## Trade-offs
+- Implementing local database using Room
+- Adding more parameter of the `/search` endpoint api
+- Adding new api enpoints
+- Implementing new UI like `SwipeRefreshLayout`, `FabButton`, Some new activity/fragment for more details
+- Finding and Fixing bugs
+- `Koin` for dependency injection
+
+#### References -
+- [Async_with__Kotlin_Coroutines](https://speakerdeck.com/0xalihn/async-with-kotlin-coroutines)
+- [7 steps to implement Paging library in Android](https://proandroiddev.com/8-steps-to-implement-paging-library-in-android-d02500f7fffe)
+- [RXAndroid + Retrofit](https://medium.com/mindorks/rxandroid-retrofit-2fff4f89fa85)
+- [Json reader](https://jsoneditoronline.org/)
+- [Json to Pojo](http://www.jsonschema2pojo.org/)
