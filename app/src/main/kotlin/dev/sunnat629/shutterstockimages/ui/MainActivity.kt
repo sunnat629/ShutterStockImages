@@ -118,15 +118,6 @@ class MainActivity : AppCompatActivity() {
 
         loadingProgressBar.visibility =
             if (networkState?.status == Status.RUNNING) View.VISIBLE else View.GONE
-
-        // update ui if there is any networkState update after fetching data
-        imageAdapter.currentList?.let { imageList ->
-            if (imageList.size > 0) {
-                retryLoadingButton.visibility = View.GONE
-                loadingProgressBar.visibility = View.GONE
-                errorMessageTextView.visibility = View.GONE
-            }
-        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
