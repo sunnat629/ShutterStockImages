@@ -92,7 +92,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * middle of the task.
      * */
     fun retry() {
-        scope.launch(Dispatchers.IO) {
+        scope.launch {
             dataSourceFactory.imageContents.value?.retryAllFailed()
         }
     }
@@ -101,7 +101,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * This function will used for reset the list and fetch the fresh data from the server.
      * */
     fun refresh() {
-        scope.launch(Dispatchers.IO) {
+        scope.launch {
             dataSourceFactory.imageContents.value?.invalidate()
         }
     }
