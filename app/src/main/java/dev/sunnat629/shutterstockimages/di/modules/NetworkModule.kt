@@ -10,21 +10,37 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * NetworkModule.kt
+ * This is the code module and it contains the network related providers.
+ * */
 @Module
 class NetworkModule {
 
+    /**
+     * This singleton provider provides an OkHttpClient Builder
+     * */
     @Provides
     @Singleton
     fun provideClientBuilder(): OkHttpClient.Builder {
         return RetrofitFactory.createClientBuilder()
     }
 
+    /**
+     * This singleton provider provides a {@linkplain BasicAuthInterceptor interceptor}
+     * */
     @Provides
     @Singleton
     fun provideBasicAuthInterceptor(): BasicAuthInterceptor {
         return BasicAuthInterceptor()
     }
 
+    /**
+     * This singleton provider provides an authorized OkHttpClient
+     *
+     * @param clientBuilder is an {@code @Authorized} OkHttpClient Builder
+     * @param basicAuthInterceptor is a {@linkplain BasicAuthInterceptor interceptor}
+     * */
     @Provides
     @Singleton
     @Authorized
@@ -37,6 +53,11 @@ class NetworkModule {
             .build()
     }
 
+    /**
+     * This singleton provider provides an authorized Retrofit
+     *
+     * @param okHttpClient is an {@code @Authorized} OkHttpClient
+     * */
     @Provides
     @Singleton
     @Authorized
@@ -44,6 +65,11 @@ class NetworkModule {
         return RetrofitFactory.createRetrofit(okHttpClient)
     }
 
+    /**
+     * This singleton provider provides an unauthorized OkHttpClient
+     *
+     * @param clientBuilder is an {@code @UnAuthorized} OkHttpClient Builder
+     * */
     @Provides
     @Singleton
     @UnAuthorized
@@ -54,6 +80,11 @@ class NetworkModule {
             .build()
     }
 
+    /**
+     * This singleton provider provides an unauthorized Retrofit
+     *
+     * @param okHttpClient is an {@code @UnAuthorized} OkHttpClient
+     * */
     @Provides
     @Singleton
     @UnAuthorized

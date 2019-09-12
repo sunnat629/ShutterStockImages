@@ -1,15 +1,22 @@
 package dev.sunnat629.shutterstockimages.ui.adapters
 
-import androidx.recyclerview.widget.DiffUtil
-import dev.sunnat629.shutterstockimages.models.networks.NetworkState
-import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
+import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import java.util.*
 
-
+/**
+ * ImageAdapter.kt
+ * This is a PagedListAdapter which will show in a RecyclerView using two ViewHolders
+ * @see ImageAdapter for more details
+ * @see NetworkStateViewHolder for more details
+ *
+ * @param retryCallback is a callback which will trigger if the fetch fails.
+ * */
 class ImageAdapter(private val retryCallback: () -> Unit) :
     PagedListAdapter<ImageContent, RecyclerView.ViewHolder>(ImageDiffCallback) {
 
@@ -17,7 +24,10 @@ class ImageAdapter(private val retryCallback: () -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+            // This layout will show, if data fetched successfully
             R.layout.list_items -> ImageViewHolder.create(parent)
+
+            // This layout will show, if an error occurs during data fetch
             R.layout.item_network_state -> NetworkStateViewHolder.create(
                 parent,
                 retryCallback
@@ -50,10 +60,9 @@ class ImageAdapter(private val retryCallback: () -> Unit) :
     }
 
     /**
-     * Set the current network state to the adapter
-     * but this work only after the initial load
-     * and the adapter already have list to add new loading raw to it
-     * so the initial loading state the activity responsible for handle it
+     * Set the current network state to the adapter but this work only after the initial load
+     * and the adapter already have list to add new loading raw to it so the initial loading state
+     * the activity responsible for handle it
      *
      * @param newNetworkState the new network state
      */
@@ -79,14 +88,26 @@ class ImageAdapter(private val retryCallback: () -> Unit) :
 
     companion object {
 
-        private val ImageDiffCallback = object : DiffUtil.ItemCallback<ImageContent>() {
-            override fun areItemsTheSame(oldItem: ImageContent, newItem: ImageContent): Boolean {
-                return oldItem.id == newItem.id
-            }
+        /**
+         * @see ImageDiffCallback is a DiffUtil which is a utility class that can calculate the
+         * difference between two lists and output a list of update operations that converts the
+         * first list into the second one. * It can be used to calculate updates for a RecyclerView Adapter.
+         * */
+        private val ImageDiffCallback =
+            object : DiffUtil.ItemCallback<ImageContent>() {
+                override fun areItemsTheSame(
+                    oldItem: ImageContent,
+                    newItem: ImageContent
+                ): Boolean {
+                    return oldItem.id == newItem.id
+                }
 
-            override fun areContentsTheSame(oldItem: ImageContent, newItem: ImageContent): Boolean {
-                return Objects.equals(oldItem, newItem)
+                override fun areContentsTheSame(
+                    oldItem: ImageContent,
+                    newItem: ImageContent
+                ): Boolean {
+                    return Objects.equals(oldItem, newItem)
+                }
             }
-        }
     }
 }

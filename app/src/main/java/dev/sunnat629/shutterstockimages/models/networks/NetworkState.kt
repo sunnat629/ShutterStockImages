@@ -1,5 +1,9 @@
 package dev.sunnat629.shutterstockimages.models.networks
 
+/**
+ * NetworkState.kt
+ * This data class contains the network status with a message if available
+ * */
 data class NetworkState(
     val status: Status,
     val message: String? = null
@@ -12,7 +16,10 @@ data class NetworkState(
     }
 }
 
-
+/**
+ * Status.kt
+ * This enum class contains the network status
+ * */
 enum class Status {
     RUNNING,
     LOADED,

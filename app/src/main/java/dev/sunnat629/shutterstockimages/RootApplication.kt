@@ -5,7 +5,14 @@ import dev.sunnat629.shutterstockimages.di.components.AppComponent
 import dev.sunnat629.shutterstockimages.di.components.DaggerAppComponent
 import timber.log.Timber
 
-class RootApplication: Application() {
+/**
+ * RootApplication.kt
+ * This class uses to specialize tasks that need to run before the creation of your first activity.
+ *
+ * @property component contains the component interface of the dagger2
+ * @property Timber is the logger for this project which is initialized only in Debug Mode.
+ * */
+class RootApplication : Application() {
 
     private lateinit var component: AppComponent
 
@@ -14,7 +21,7 @@ class RootApplication: Application() {
 
         component = DaggerAppComponent.builder().application(this).build()
 
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {
             // todo initiate the Firebase or Fabric crashlytics.
@@ -22,7 +29,7 @@ class RootApplication: Application() {
     }
 
     companion object {
-        fun getComponent(application: Application): AppComponent{
+        fun getComponent(application: Application): AppComponent {
             return (application.applicationContext as RootApplication).component
         }
     }
