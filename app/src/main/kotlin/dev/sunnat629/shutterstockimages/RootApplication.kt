@@ -1,8 +1,8 @@
 package dev.sunnat629.shutterstockimages
 
 import android.app.Application
-import dev.sunnat629.shutterstockimages.di.components.AppComponent
-import dev.sunnat629.shutterstockimages.di.components.DaggerAppComponent
+import dev.sunnat629.shutterstockimages.di.components.AppComponentDefault
+import dev.sunnat629.shutterstockimages.di.components.DaggerAppComponentDefault
 import timber.log.Timber
 
 /**
@@ -14,12 +14,12 @@ import timber.log.Timber
  * */
 class RootApplication : Application() {
 
-    private lateinit var component: AppComponent
+    private lateinit var component: AppComponentDefault
 
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerAppComponent.builder().application(this).build()
+        component = DaggerAppComponentDefault.builder().application(this).build()
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -29,7 +29,7 @@ class RootApplication : Application() {
     }
 
     companion object {
-        fun getComponent(application: Application): AppComponent {
+        fun getComponent(application: Application): AppComponentDefault {
             return (application.applicationContext as RootApplication).component
         }
     }

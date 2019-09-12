@@ -28,7 +28,7 @@ import javax.inject.Singleton
         OthersModule::class
     ]
 )
-interface AppComponent {
+interface AppComponentDefault: AppComponent {
 
     /**
      * Here, it binds some instance to Component. In this case I created an interface with
@@ -41,11 +41,6 @@ interface AppComponent {
         @BindsInstance
         fun application(application: Application): Builder
 
-        fun build(): AppComponent
+        fun build(): AppComponentDefault
     }
-
-    // inject functions are for activities and viewModels
-    fun inject(activity: MainActivity)
-
-    fun inject(viewModel: MainViewModel)
 }

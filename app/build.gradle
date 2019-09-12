@@ -32,6 +32,40 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    productFlavors {
+        withCoRoutines {
+            buildConfigField "String", "CLIENT_ID", "\"d7ed1-7c154-d3833-aa576-abf10-4ccb2\""
+            buildConfigField "String", "CLIENT_SECRET", "\"1628d-6afa1-ccb0c-20c4e-16185-463fb\""
+        }
+
+        withRxJava {
+            buildConfigField "String", "CLIENT_ID", "\"0cfe9-be7b2-ca3ba-63f7a-94f39-5a18d\""
+            buildConfigField "String", "CLIENT_SECRET", "\"4eb6c-8a2d2-560dd-32485-5ba1c-cce84\""
+        }
+    }
+
+    flavorDimensions "app"
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res']
+            java.srcDirs = ['src/main/kotlin']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+
+        withCoRoutines {
+            res.srcDirs = ['src/co_routines/res']
+            java.srcDirs = ['src/co_routines/kotlin']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+
+        withRxJava {
+            res.srcDirs = ['src/rx_java/res']
+            java.srcDirs = ['src/co_routines/kotlin']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
 }
 
 dependencies {

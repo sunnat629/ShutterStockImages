@@ -13,7 +13,6 @@ import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.E
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADED
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADING
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -88,13 +87,13 @@ class ImageDataSource(
         callback: LoadInitialCallback<Int, ImageContent>
     ) {
         setNetworkState(LOADING)
+        Timber.tag(DATA_S_FACTORY).d("loadInitial ${params.requestedLoadSize}")
 
         scope.launch {
-            Timber.tag(DATA_S_FACTORY).d("loadInitial ${params.requestedLoadSize}")
             when (val result = imageRepository.getImages(FIRST_PAGE)) {
 
                 is NetworkResult.Success -> {
-                    Timber.tag(DATA_S_FACTORY).d("loadInitial ${FIRST_PAGE + 1}")
+                    Timber.tag(DATA_S_FACTORY).d("loadInitial $FIRST_PAGE")
                     callback.onResult(result.data.imageContent, null, FIRST_PAGE + 1)
                     setNetworkState(LOADED)
                 }
@@ -132,8 +131,10 @@ class ImageDataSource(
      * @param callback is LoadCallback: Callback that receives loaded data.
      * */
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ImageContent>) {
+
         scope.launch {
             val key = params.key + 1
+            Timber.tag(DATA_S_FACTORY).d("loadAfter $key")
 
             when (val result = imageRepository.getImages(key)) {
 
