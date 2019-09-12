@@ -1,7 +1,7 @@
 package dev.sunnat629.shutterstockimages.models.networks
 
 import dev.sunnat629.shutterstockimages.BuildConfig
-import dev.sunnat629.shutterstockimages.DSConstants.BASE_URL
+import dev.sunnat629.shutterstockimages.BuildConfig.BASE_URL
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

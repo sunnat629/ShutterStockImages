@@ -35,13 +35,15 @@ android {
 
     productFlavors {
         withCoRoutines {
-            buildConfigField "String", "CLIENT_ID", "\"d7ed1-7c154-d3833-aa576-abf10-4ccb2\""
-            buildConfigField "String", "CLIENT_SECRET", "\"1628d-6afa1-ccb0c-20c4e-16185-463fb\""
+            buildConfigField "String", "BASE_URL", "\"https://api.shutterstock.com\""
+            buildConfigField "String", "CONSUMER_KEY", "\"d7ed1-7c154-d3833-aa576-abf10-4ccb2\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"1628d-6afa1-ccb0c-20c4e-16185-463fb\""
         }
 
         withRxJava {
-            buildConfigField "String", "CLIENT_ID", "\"0cfe9-be7b2-ca3ba-63f7a-94f39-5a18d\""
-            buildConfigField "String", "CLIENT_SECRET", "\"4eb6c-8a2d2-560dd-32485-5ba1c-cce84\""
+            buildConfigField "String", "BASE_URL", "\"https://api.shutterstock.com\""
+            buildConfigField "String", "CONSUMER_KEY", "\"0cfe9-be7b2-ca3ba-63f7a-94f39-5a18d\""
+            buildConfigField "String", "CONSUMER_SECRET", "\"4eb6c-8a2d2-560dd-32485-5ba1c-cce84\""
         }
     }
 
