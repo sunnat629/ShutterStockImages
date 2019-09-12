@@ -24,4 +24,5 @@ object LoggingTags {
     const val MAIN_ACTIVITY = "MAIN_ACTIVITY"
     const val BASE_REPOSITORY = "BASE_REPOSITORY"
     const val DATA_S_FACTORY = "DATA_S_FACTORY"
+    const val VIEW_MODEL = "VIEW_MODEL"
 }

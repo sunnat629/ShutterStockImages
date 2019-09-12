@@ -46,5 +46,6 @@ interface AppComponent {
 
     // inject functions are for activities and viewModels
     fun inject(activity: MainActivity)
+
     fun inject(viewModel: MainViewModel)
 }
