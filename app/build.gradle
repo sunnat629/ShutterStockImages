@@ -10,31 +10,40 @@ apply from: rootProject.file("versions.gradle")
 
 android {
     compileSdkVersion versions.compileSdk
+
     defaultConfig {
-        applicationId "dev.sunnat629.shutterstockimages"
+        applicationId "dev.sunnat629.shutterstockimabuildTypesges"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode versions.versionCode
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     // androidx & ktx
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
-    implementation "androidx.core:core-ktx:${versions.ktx}"
-    implementation "androidx.core:core:${versions.androidxCore}"
-
-    // android architecture components
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "androidx.core:core-ktx:${versions.appcompat}"
+    implementation "androidx.core:core:${versions.appcompat}"
+
+    // android lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-livedata-core:${versions.lifecycle}"
@@ -56,11 +65,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.coroutinesAdapter}"
 
+    //Paging
+    implementation "android.arch.paging:runtime:1.0.1"
+
     // logger
     implementation "com.jakewharton.timber:timber:${versions.timber}"
 
     // Anko - for toast
     implementation "org.jetbrains.anko:anko-commons:${versions.anko}"
+
+    // picasso
+    implementation "com.squareup.picasso:picasso:${versions.picasso}"
 
     // dagger
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
@@ -70,6 +85,6 @@ dependencies {
     // testing
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testCore}"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.nhaarman_mockitokotlin2}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.nhaarman_mockito}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
 }

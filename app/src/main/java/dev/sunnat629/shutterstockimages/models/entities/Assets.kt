@@ -9,9 +9,9 @@ package dev.sunnat629.shutterstockimages.models.entities
  * @param large_thumb has the large size of the image,
  * @param huge_thumb has the huge or biggest size of the image.
  * */
-data class Assets (
-    private val preview: Thumbs,
-    private val small_thumb: Thumbs,
-    private val large_thumb: Thumbs,
-    private val huge_thumb: Thumbs
+data class Assets(
+    val preview: Thumbs,
+    val small_thumb: Thumbs,
+    val large_thumb: Thumbs,
+    val huge_thumb: Thumbs
 )
