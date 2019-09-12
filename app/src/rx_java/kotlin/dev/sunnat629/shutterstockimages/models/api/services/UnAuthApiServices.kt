@@ -1,5 +1,6 @@
 package dev.sunnat629.shutterstockimages.models.api.services
 
+import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -12,10 +13,10 @@ import retrofit2.http.Headers
 interface UnAuthApiServices {
 
     /**
-     * This suspending function returns the response a OK message.
+     * This function returns the response a OK message.
      * This is just for a demo purpose.
      * */
     @GET("/v2/test")
     @Headers("Content-Type: application/json")
-    suspend fun testAPI(): Response<String>
+    fun testAPI(): Single<String>
 }

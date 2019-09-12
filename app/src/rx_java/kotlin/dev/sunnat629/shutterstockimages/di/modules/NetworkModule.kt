@@ -1,6 +1,5 @@
 package dev.sunnat629.shutterstockimages.di.modules
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dev.sunnat629.shutterstockimages.di.Authorized
@@ -9,6 +8,7 @@ import dev.sunnat629.shutterstockimages.models.networks.BasicAuthInterceptor
 import dev.sunnat629.shutterstockimages.models.networks.RetrofitFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import javax.inject.Singleton
 
 /**
@@ -63,7 +63,7 @@ class NetworkModule {
     @Singleton
     @Authorized
     fun provideAuthRetrofit(@Authorized okHttpClient: OkHttpClient): Retrofit {
-        return RetrofitFactory.createRetrofit(okHttpClient, RxJavaCallAdapterFactory.create())
+        return RetrofitFactory.createRetrofit(okHttpClient, RxJava2CallAdapterFactory.create())
     }
 
     /**
@@ -90,6 +90,6 @@ class NetworkModule {
     @Singleton
     @UnAuthorized
     fun provideRetrofit(@UnAuthorized okHttpClient: OkHttpClient): Retrofit {
-        return RetrofitFactory.createRetrofit(okHttpClient, RxJavaCallAdapterFactory.create())
+        return RetrofitFactory.createRetrofit(okHttpClient, RxJava2CallAdapterFactory.create())
     }
 }

@@ -2,48 +2,46 @@ package dev.sunnat629.shutterstockimages.di.modules
 
 import dagger.Module
 import dagger.Provides
-import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
+import dev.sunnat629.shutterstockimages.models.api.services.ImageApiServices
 import dev.sunnat629.shutterstockimages.models.datasource.DataSourceFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 /**
  * OthersModule.kt
- * This is a module class which provides CoroutineScope and DataSourceFactory during inject.
+ * This is a module class which provides CompositeDisposable and DataSourceFactory during inject.
  *
  * It includes another module -
- * @see RepositoryModule for more details
+ * @see ServiceModule for more details
  * */
 @Module(
     includes = [
-        RepositoryModule::class]
+        ServiceModule::class]
 )
 class OthersModule {
 
     /**
-     * This singleton provider provides {@linkplain CoroutineScope scope} which is a context of a scope.
+     * This singleton provider provides {@linkplain CompositeDisposable} which contains a set of disposables
      * */
     @Provides
     @Singleton
-    fun provideScope(): CoroutineScope {
-        return CoroutineScope(Job() + Dispatchers.Main + Dispatchers.IO)
+    fun provideCompositeDisposable(): CompositeDisposable {
+        return CompositeDisposable()
     }
 
     /**
      * This singleton provider provides {@linkplain DataSourceFactory} which is responsible for
      * retrieving the data using the DataSource and PagedList configuration.
      *
-     * @param scope is the {@linkplain CoroutineScope scope}
-     * @param imageRepository is the {@linkplain ImageRepository repository}
+     * @param compositeDisposable is the {@linkplain CompositeDisposable}
+     * @param imageApiServices is the {@linkplain ImageApiServices service}
      * */
     @Provides
     @Singleton
     fun provideDataSourceFactory(
-        scope: CoroutineScope,
-        imageRepository: ImageRepository
+        compositeDisposable: CompositeDisposable,
+        imageApiServices: ImageApiServices
     ): DataSourceFactory {
-        return DataSourceFactory(scope, imageRepository)
+        return DataSourceFactory(compositeDisposable, imageApiServices)
     }
 }

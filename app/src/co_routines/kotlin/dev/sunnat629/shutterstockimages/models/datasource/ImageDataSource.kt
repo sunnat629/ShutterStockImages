@@ -58,7 +58,7 @@ class ImageDataSource(
     private var retry: (() -> Any)? = null
 
     /**
-     * retryAllFailed is fublic function which will used in viewModel. This is the public version of
+     * retryAllFailed is public function which will used in viewModel. This is the public version of
      * @see retry
      * */
     fun retryAllFailed() {

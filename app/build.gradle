@@ -57,14 +57,14 @@ android {
         }
 
         withCoRoutines {
-            res.srcDirs = ['src/co_routines/res']
+            res.srcDirs = ['src/main/res']
             java.srcDirs = ['src/co_routines/kotlin']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
 
         withRxJava {
-            res.srcDirs = ['src/rx_java/res']
-            java.srcDirs = ['src/co_routines/kotlin']
+            res.srcDirs = ['src/main/res']
+            java.srcDirs = ['src/rx_java/kotlin']
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
@@ -102,10 +102,9 @@ dependencies {
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofit2_coroutines}"
 
     // rx
-    implementation "io.reactivex:rxandroid:$versions.rxandroid"
-    implementation "io.reactivex:rxjava:$versions.rxjava"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2_rxjava"
-
+    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit2_rxjava}"
 
     //Paging
     implementation "android.arch.paging:runtime:1.0.1"

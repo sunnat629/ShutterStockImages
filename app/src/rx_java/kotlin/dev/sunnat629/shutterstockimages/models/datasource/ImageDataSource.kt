@@ -4,16 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import dev.sunnat629.shutterstockimages.DSConstants.FIRST_PAGE
+import dev.sunnat629.shutterstockimages.LoggingTags.DATA_SOURCE
 import dev.sunnat629.shutterstockimages.LoggingTags.DATA_S_FACTORY
-import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
+import dev.sunnat629.shutterstockimages.models.api.services.ImageApiServices
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
-import dev.sunnat629.shutterstockimages.models.networks.NetworkResult
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.ERROR
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADED
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState.Companion.LOADING
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 /**
@@ -21,12 +23,12 @@ import timber.log.Timber
  * This is a dataSource class which is implemented a DataSource using PageKeyedDataSource.
  * if any developer needs to use data from page N - 1 to load page N, then this PageKeyedDataSource uses.
  *
- * @param scope is the {@linkplain CoroutineScope scope}
- * @param imageRepository is the {@linkplain ImageRepository repository}
+ * @param compositeDisposable is the {@linkplain CompositeDisposable}
+ * @param imageApiServices is the {@linkplain ImageApiServices service}
  * */
 class ImageDataSource(
-    private val scope: CoroutineScope,
-    private val imageRepository: ImageRepository
+    private val compositeDisposable: CompositeDisposable,
+    private val imageApiServices: ImageApiServices
 ) : PageKeyedDataSource<Int, ImageContent>() {
 
     /**
@@ -55,19 +57,23 @@ class ImageDataSource(
      * retry will use to trigger this DataSource class again if there is any error during fetch the
      * data from the server
      * */
-    private var retry: (() -> Any)? = null
+    private var retry: Completable? = null
 
     /**
-     * retryAllFailed is fublic function which will used in viewModel. This is the public version of
+     * retryAllFailed is public function which will used in viewModel. This is the public version of
      * @see retry
      * */
     fun retryAllFailed() {
+
         val prevRetry = retry
         retry = null
         prevRetry?.let {
-            scope.launch {
-                it.invoke()
-            }
+            compositeDisposable.add(
+                it
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ }, { throwable -> Timber.tag(DATA_SOURCE).e(throwable) })
+            )
         }
     }
 
@@ -86,40 +92,22 @@ class ImageDataSource(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, ImageContent>
     ) {
-        setNetworkState(LOADING)
         Timber.tag(DATA_S_FACTORY).d("loadInitial ${params.requestedLoadSize}")
+        setInitNetworkState(LOADING)
 
-        scope.launch {
-            when (val result = imageRepository.getImages(FIRST_PAGE)) {
-
-                is NetworkResult.Success -> {
-                    Timber.tag(DATA_S_FACTORY).d("loadInitial $FIRST_PAGE")
-                    callback.onResult(result.data.imageContent, null, FIRST_PAGE + 1)
-                    setNetworkState(LOADED)
-                }
-
-                is NetworkResult.Error -> {
-                    retry = {
-                        loadInitial(params, callback)
+        compositeDisposable.add(
+            imageApiServices.getImages(FIRST_PAGE)
+                .subscribe(
+                    { images ->
+                        setInitNetworkState(LOADED)
+                        callback.onResult(images.imageContent, null, FIRST_PAGE)
+                    },
+                    { throwable ->
+                        retry = Completable.fromAction { loadInitial(params, callback) }
+                        setInitNetworkState(ERROR(throwable.message))
                     }
-                    setNetworkState(ERROR(result.exception))
-                }
-
-                is NetworkResult.NoInternet -> {
-                    retry = {
-                        loadInitial(params, callback)
-                    }
-                    setNetworkState(ERROR(result.message))
-                }
-
-                is NetworkResult.RateLimit -> {
-                    retry = {
-                        loadInitial(params, callback)
-                    }
-                    setNetworkState(ERROR(result.message))
-                }
-            }
-        }
+                )
+        )
     }
 
     /**
@@ -132,39 +120,22 @@ class ImageDataSource(
      * */
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ImageContent>) {
 
-        scope.launch {
-            val key = params.key + 1
-            Timber.tag(DATA_S_FACTORY).d("loadAfter $key")
+        val key = params.key + 1
+        Timber.tag(DATA_S_FACTORY).d("loadAfter $key")
 
-            when (val result = imageRepository.getImages(key)) {
-
-                is NetworkResult.Success -> {
-                    callback.onResult(result.data.imageContent, key)
-                    setNetworkState(LOADED)
-                }
-
-                is NetworkResult.Error -> {
-                    retry = {
-                        loadAfter(params, callback)
+        compositeDisposable.add(
+            imageApiServices.getImages(key)
+                .subscribe(
+                    { image ->
+                        _networkState.postValue(LOADED)
+                        callback.onResult(image.imageContent, key)
+                    },
+                    { throwable ->
+                        retry = Completable.fromAction { loadAfter(params, callback) }
+                        _networkState.postValue(ERROR(throwable.message))
                     }
-                    setNetworkState(ERROR(result.exception))
-                }
-
-                is NetworkResult.NoInternet -> {
-                    retry = {
-                        loadAfter(params, callback)
-                    }
-                    setNetworkState(ERROR(result.message))
-                }
-
-                is NetworkResult.RateLimit -> {
-                    retry = {
-                        loadAfter(params, callback)
-                    }
-                    setNetworkState(ERROR(result.message))
-                }
-            }
-        }
+                )
+        )
     }
 
     /**
@@ -172,7 +143,7 @@ class ImageDataSource(
      * @see _networkState value and
      * @see _initialLoad value
      * */
-    private fun setNetworkState(networkState: NetworkState) {
+    private fun setInitNetworkState(networkState: NetworkState) {
         _networkState.postValue(networkState)
         _initialLoad.postValue(networkState)
     }

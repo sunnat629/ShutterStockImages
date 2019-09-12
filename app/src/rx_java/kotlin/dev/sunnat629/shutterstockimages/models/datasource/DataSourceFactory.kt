@@ -2,9 +2,9 @@ package dev.sunnat629.shutterstockimages.models.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
+import dev.sunnat629.shutterstockimages.models.api.services.ImageApiServices
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
-import kotlinx.coroutines.CoroutineScope
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * A simple imageContent source factory which also provides a way to observe the last created imageContent source.
@@ -12,14 +12,14 @@ import kotlinx.coroutines.CoroutineScope
  * in the Repository class.
  */
 class DataSourceFactory(
-    private val scope: CoroutineScope,
-    private val imageRepository: ImageRepository
+    private val compositeDisposable: CompositeDisposable,
+    private val imageApiServices: ImageApiServices
 ) : DataSource.Factory<Int, ImageContent>() {
 
     val imageContents = MutableLiveData<ImageDataSource>()
 
     override fun create(): DataSource<Int, ImageContent> {
-        val usersDataSource = ImageDataSource(scope, imageRepository)
+        val usersDataSource = ImageDataSource(compositeDisposable, imageApiServices)
         imageContents.postValue(usersDataSource)
         return usersDataSource
     }
