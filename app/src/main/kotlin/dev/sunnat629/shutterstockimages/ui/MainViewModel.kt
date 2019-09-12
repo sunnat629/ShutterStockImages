@@ -14,9 +14,7 @@ import dev.sunnat629.shutterstockimages.models.datasource.ImageDataSource
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -92,18 +90,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * middle of the task.
      * */
     fun retry() {
-        scope.launch {
-            dataSourceFactory.imageContents.value?.retryAllFailed()
-        }
+        dataSourceFactory.imageContents.value?.retryAllFailed()
     }
 
     /**
      * This function will used for reset the list and fetch the fresh data from the server.
      * */
     fun refresh() {
-        scope.launch {
-            dataSourceFactory.imageContents.value?.invalidate()
-        }
+        dataSourceFactory.imageContents.value?.invalidate()
     }
 
     /**

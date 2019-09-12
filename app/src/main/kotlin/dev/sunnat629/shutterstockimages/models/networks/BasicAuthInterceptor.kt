@@ -1,7 +1,7 @@
 package dev.sunnat629.shutterstockimages.models.networks
 
-import dev.sunnat629.shutterstockimages.DSConstants.CONSUMER_KEY
-import dev.sunnat629.shutterstockimages.DSConstants.CONSUMER_SECRET
+import dev.sunnat629.shutterstockimages.BuildConfig.CONSUMER_KEY
+import dev.sunnat629.shutterstockimages.BuildConfig.CONSUMER_SECRET
 import dev.sunnat629.shutterstockimages.DSConstants.HEADER_AUTHORIZATION
 import okhttp3.Credentials
 import okhttp3.Interceptor
