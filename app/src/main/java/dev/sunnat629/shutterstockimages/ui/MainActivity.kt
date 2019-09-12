@@ -3,7 +3,10 @@ package dev.sunnat629.shutterstockimages.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +21,9 @@ import dev.sunnat629.shutterstockimages.models.networks.Status
 import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
+
 
 /**
  * <h1>ShutterStock Images</h1>
@@ -47,13 +52,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         RootApplication.getComponent(application).inject(this)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+        initToolbar()
         initObservers()
         initAdapter()
         initButtons()
+    }
+
+    private fun initToolbar() {
+        setSupportActionBar(toolbar)
     }
 
     /**
@@ -129,6 +138,21 @@ class MainActivity : AppCompatActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         initGridLayoutManager(newConfig)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh -> {
+                viewModel.refresh()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     /**

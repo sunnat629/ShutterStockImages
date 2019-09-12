@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">ShutterStock Images</string>
+    <string name="app_name">Shutter Stock Images</string>
     <string name="retry">Retry</string>
+    <string name="refresh">Refresh</string>
 </resources>
