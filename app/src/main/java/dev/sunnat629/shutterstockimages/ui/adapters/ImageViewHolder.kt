@@ -9,11 +9,16 @@ import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import kotlinx.android.synthetic.main.list_items.view.*
 
-
+/**
+ * ImageViewHolder.kt
+ * This is a RecyclerView ViewHolder and show each row when the data fetched successfully
+ *
+ * @param itemView is the View of the RecyclerView
+ * */
 class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindTo(imageSearch: ImageContent?) {
-            imageSearch?.assets?.preview?.let {
+        imageSearch?.assets?.preview?.let {
             Picasso.get()
                 .load(it.url)
                 .placeholder(R.mipmap.ic_launcher)

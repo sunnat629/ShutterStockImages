@@ -10,8 +10,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * RetrofitFactory.kt
+ * This object contains the OkHttpClient.Builder and Retrofit initialization
+ * */
 object RetrofitFactory {
 
+    /**
+     * This function returns an OkHttpClient.Builder
+     * */
     fun createClientBuilder(): OkHttpClient.Builder {
         val clientBuilder = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -24,6 +31,9 @@ object RetrofitFactory {
         return clientBuilder
     }
 
+    /**
+     * This function returns a Retrofit
+     * */
     fun createRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -33,6 +43,9 @@ object RetrofitFactory {
             .build()
     }
 
+    /**
+     * This function returns a HttpLoggingInterceptor for seeing the log regarding OkHttp in debug mode.
+     * */
     private fun makeLoggingInterceptor(): HttpLoggingInterceptor {
         val debugInterceptor = HttpLoggingInterceptor()
         debugInterceptor.level = HttpLoggingInterceptor.Level.BODY

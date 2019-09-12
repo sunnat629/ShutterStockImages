@@ -2,7 +2,8 @@ package dev.sunnat629.shutterstockimages.models.networks
 
 
 /**
- * This class will use in the suspend functions of the repository
+ * NetworkResult.kt
+ * This sealed classes to wrap-up the response in Success, Error, RateLimit and NoInternet case.
  * */
 sealed class NetworkResult<out T : Any> {
 

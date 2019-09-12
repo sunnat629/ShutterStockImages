@@ -1,14 +1,5 @@
 package dev.sunnat629.shutterstockimages.ui
 
-/**
- * <h1>ShutterStock Images</h1>
- * This is a demo project where a user can see the image in an infinite scrollable view.
- * For this project I have used the "Shutterstock API" for the images.
- *
- * @author  S M Mohi-Us Sunnat
- * @version 1.0
- * @since   8 September 2019
- */
 
 import android.os.Bundle
 import android.view.View
@@ -26,9 +17,17 @@ import dev.sunnat629.shutterstockimages.models.networks.Status
 import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
-import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * <h1>ShutterStock Images</h1>
+ * This is a demo project where a user can see the image in an infinite scrollable view.
+ * For this project I have used the "Shutterstock API" for the images.
+ *
+ * @author  S M Mohi-Us Sunnat
+ * @version 1.0
+ * @since   8 September 2019
+ */
 class MainActivity : AppCompatActivity() {
 
     @Inject
@@ -51,11 +50,22 @@ class MainActivity : AppCompatActivity() {
 
         initObservers()
         initAdapter()
+        initButtons()
     }
 
+    /**
+     * @see initButtons initiate the listeners of the buttons
+     * */
+    private fun initButtons() {
+        retryLoadingButton.setOnClickListener { viewModel.retry() }
+    }
+
+    /**
+     * @see initObservers initiate all the observers
+     * */
     private fun initObservers() {
         initialLoadObserver = Observer {
-                setInitialLoadingState(it)
+            setInitialLoadingState(it)
         }
 
         imageSearchObserver = Observer {
@@ -68,12 +78,13 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.getNetworkState().observe(this, networkStateObserver)
-
         viewModel.getInitialLoad().observe(this, initialLoadObserver)
-
         viewModel.imageSearchList.observe(this, imageSearchObserver)
     }
 
+    /**
+     * @see initAdapter initiate all the recycleView and adapter
+     * */
     private fun initAdapter() {
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         imageAdapter = ImageAdapter {
@@ -85,6 +96,9 @@ class MainActivity : AppCompatActivity() {
         image_recycler_view.recycledViewPool
     }
 
+    /**
+     * @see setInitialLoadingState initiate the network status on the UI
+     * */
     private fun setInitialLoadingState(networkState: NetworkState?) {
         //error message
         errorMessageTextView.visibility =
@@ -93,13 +107,14 @@ class MainActivity : AppCompatActivity() {
             errorMessageTextView.text = networkState.message
         }
 
-        //loading and retry
+        //loading and retry UI
         retryLoadingButton.visibility =
             if (networkState?.status == Status.FAILED) View.VISIBLE else View.GONE
 
         loadingProgressBar.visibility =
             if (networkState?.status == Status.RUNNING) View.VISIBLE else View.GONE
 
+        // update ui if there is any networkState update after fetching data
         imageAdapter.currentList?.let { imageList ->
             if (imageList.size > 0) {
                 retryLoadingButton.visibility = View.GONE
@@ -107,12 +122,13 @@ class MainActivity : AppCompatActivity() {
                 errorMessageTextView.visibility = View.GONE
             }
         }
-
-        retryLoadingButton.setOnClickListener { viewModel.retry() }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()
+
+        // Remove all the observers of this app during app kills
         viewModel.getInitialLoad().removeObservers(this)
         viewModel.imageSearchList.removeObservers(this)
         viewModel.getNetworkState().removeObservers(this)
