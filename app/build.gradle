@@ -99,7 +99,13 @@ dependencies {
     // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.coroutinesAdapter}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${versions.retrofit2_coroutines}"
+
+    // rx
+    implementation "io.reactivex:rxandroid:$versions.rxandroid"
+    implementation "io.reactivex:rxjava:$versions.rxjava"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$versions.retrofit2_rxjava"
+
 
     //Paging
     implementation "android.arch.paging:runtime:1.0.1"
