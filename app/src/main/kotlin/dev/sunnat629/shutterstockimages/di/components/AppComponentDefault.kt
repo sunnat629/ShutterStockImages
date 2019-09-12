@@ -5,9 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dev.sunnat629.shutterstockimages.di.modules.NetworkModule
 import dev.sunnat629.shutterstockimages.di.modules.OthersModule
-import dev.sunnat629.shutterstockimages.di.modules.RepositoryModule
-import dev.sunnat629.shutterstockimages.ui.MainActivity
-import dev.sunnat629.shutterstockimages.ui.MainViewModel
+import dev.sunnat629.shutterstockimages.di.modules.ServiceModule
 import javax.inject.Singleton
 
 /**
@@ -16,7 +14,6 @@ import javax.inject.Singleton
  *
  * It includes some modules -
  * @see NetworkModule for more details
- * @see RepositoryModule for more details
  * @see OthersModule for more details
 
  * */
@@ -24,7 +21,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         NetworkModule::class,
-        RepositoryModule::class,
+        ServiceModule::class,
         OthersModule::class
     ]
 )

@@ -1,5 +1,6 @@
 package dev.sunnat629.shutterstockimages.models.networks
 
+import android.util.Log
 import dev.sunnat629.shutterstockimages.BuildConfig
 import dev.sunnat629.shutterstockimages.BuildConfig.BASE_URL
 import okhttp3.ConnectionPool

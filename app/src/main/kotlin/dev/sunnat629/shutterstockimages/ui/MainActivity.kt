@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.RootApplication
-import dev.sunnat629.shutterstockimages.models.api.repositories.ImageRepository
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import dev.sunnat629.shutterstockimages.models.networks.Status
@@ -22,7 +20,6 @@ import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
 import kotlinx.android.synthetic.main.toolbar.*
-import javax.inject.Inject
 
 
 /**
@@ -35,9 +32,6 @@ import javax.inject.Inject
  * @since   8 September 2019
  */
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var imageRepository: ImageRepository
 
     private lateinit var viewModel: MainViewModel
     private lateinit var imageAdapter: ImageAdapter
