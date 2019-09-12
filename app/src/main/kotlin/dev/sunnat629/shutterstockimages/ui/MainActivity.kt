@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         initToolbar()
-        initObservers()
-        initAdapter()
         initButtons()
+        initAdapter()
+        initObservers()
     }
 
     private fun initToolbar() {
