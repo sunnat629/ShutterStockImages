@@ -33,7 +33,6 @@ ext {
             testExtJunit        : "1.1.1",
             testCore            : "1.2.0",
 
-            anko                : "0.10.8",
             picasso             : "2.71828",
 
             rxandroid           : "2.1.1",

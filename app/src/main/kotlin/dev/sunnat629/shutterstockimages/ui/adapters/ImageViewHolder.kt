@@ -21,7 +21,7 @@ class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         imageSearch?.assets?.preview?.let {
             Picasso.get()
                 .load(it.url)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.shutterstock_logo)
                 .resize(it.width, it.height)
                 .into(itemView.image)
         }
