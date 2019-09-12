@@ -1,7 +1,6 @@
 package dev.sunnat629.shutterstockimages.models.api.services
 
 import io.reactivex.Single
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 

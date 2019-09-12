@@ -14,5 +14,5 @@
         android:translationZ="2dp"
         android:minHeight="?attr/actionBarSize"
         app:titleTextColor="@android:color/white"
-        android:theme="@style/ToolbarTheme"/>
+        android:theme="@style/ToolbarTheme" />
 </androidx.cardview.widget.CardView>

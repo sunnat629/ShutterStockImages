@@ -25,7 +25,7 @@ import javax.inject.Singleton
         OthersModule::class
     ]
 )
-interface AppComponentDefault: AppComponent {
+interface AppComponentDefault : AppComponent {
 
     /**
      * Here, it binds some instance to Component. In this case I created an interface with
