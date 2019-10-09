@@ -120,6 +120,9 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${versions.dagger}"
 
+    // multiplex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     // testing
     testImplementation "junit:junit:${versions.junit}"
     androidTestImplementation "androidx.test:runner:${versions.testCore}"

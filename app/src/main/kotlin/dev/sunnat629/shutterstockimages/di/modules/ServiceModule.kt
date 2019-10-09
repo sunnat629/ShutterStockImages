@@ -2,8 +2,8 @@ package dev.sunnat629.shutterstockimages.di.modules
 
 import dagger.Module
 import dagger.Provides
-import dev.sunnat629.shutterstockimages.di.Authorized
-import dev.sunnat629.shutterstockimages.di.UnAuthorized
+import dev.sunnat629.shutterstockimages.di.qualifiers.Authorized
+import dev.sunnat629.shutterstockimages.di.qualifiers.UnAuthorized
 import dev.sunnat629.shutterstockimages.models.api.services.ImageApiServices
 import dev.sunnat629.shutterstockimages.models.api.services.UnAuthApiServices
 import retrofit2.Retrofit

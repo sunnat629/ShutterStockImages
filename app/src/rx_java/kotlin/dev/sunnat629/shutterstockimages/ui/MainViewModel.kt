@@ -11,6 +11,7 @@ import dev.sunnat629.shutterstockimages.models.datasource.DataSourceFactory
 import dev.sunnat629.shutterstockimages.models.datasource.ImageDataSource
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -18,11 +19,20 @@ import javax.inject.Inject
  * This is the view model class of the main activity. It will contains all the data of the actions
  * and provide to the activity.
  *
- * @param dataSourceFactory responsible for retrieving the data using the DataSource and PagedList configuration.
+ * @param dataSourceFactory - This mutable variable is {@code @Injected} and responsible for
+ * retrieving the data using the DataSource and PagedList configuration.
  * */
 class MainViewModel @Inject constructor(
     private val dataSourceFactory: DataSourceFactory
-) : ViewModel() {
+) : ViewModel()
+{
+
+    /**
+     * This mutable variable is {@code @Injected} and a CompositeDisposable contains a set of
+     * disposables that will be disposed when the CompositeDisposable is disposed.
+     * */
+    @Inject
+    lateinit var compositeDisposable: CompositeDisposable
 
     /**
      * This immutable variable contains the image data after fetching from.
@@ -78,5 +88,13 @@ class MainViewModel @Inject constructor(
      * */
     fun refresh() {
         dataSourceFactory.imageContents.value?.invalidate()
+    }
+
+    /**
+     * This override function kills the lifecycle of this viewModel and also dispose the compositeDisposable.
+     * */
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 }
