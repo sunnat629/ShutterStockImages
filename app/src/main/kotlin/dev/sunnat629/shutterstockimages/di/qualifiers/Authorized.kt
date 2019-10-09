@@ -1,4 +1,4 @@
-package dev.sunnat629.shutterstockimages.di
+package dev.sunnat629.shutterstockimages.di.qualifiers
 
 import javax.inject.Qualifier
 
