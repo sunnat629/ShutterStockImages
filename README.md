@@ -12,16 +12,14 @@ Using two types of Keys & Secrets. One is for Co-Routines and another is for RxJ
 - **MvvM:** The architecture of this app is view model. This is the latest and recommended architecture for android. MVVM uses data binding and is therefore a more event driven architecture. It can map many views to one view model. Like many fragments or activities can use one viewmodel and also the same values without destroying/loosing them. In MVVM, the view model has no reference to the view. Testing becomes easy after using it. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/viewmodel).
 - **LiveData:** LiveData is an observable data holder class. Unlike a regular observable, LiveData is lifecycle-aware, meaning it respects the lifecycle of other app components, such as activities, fragments, or services. This awareness ensures LiveData only updates app component observers that are in an active lifecycle state. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/livedata).
 - **Paging:** The Paging Library helps you load and display small chunks of data at a time. Loading partial data on demand reduces usage of network bandwidth and system resources. For more details, visit [HERE](https://developer.android.com/topic/libraries/architecture/paging/).
-- **Dagger2:** 
-- **RxJava+RxAndroid:** 
-- **Co-Routines:** 
-- **Picasso:**
-- **Retrofit:**
-- **OkHttp:**
-- **Mockito:**
-- **Espresso:**
-- **Timber:** 
-- **Material Design:** 
+- **Dagger2:** For dependency Injection
+- **RxJava+RxAndroid:** To compose asynchronous and event-based programs by using observable sequence.
+- **Co-Routines:** This is a concurrency design pattern that we can use on Android to simplify code that executes asynchronously. 
+- **Picasso:** To handle the Image loading
+- **Retrofit:** A type-safe HTTP client. It turns the HTTP API into a Java/Kotlin interface. 
+- **OkHttp:** An HTTP & HTTP/2 client for Android 
+- **Timber:** To show the logging in debug mode
+- **Material Design:** To smooth the UI with material style
 
 ## Trade-offs
 - Implementing local database using Room
@@ -30,6 +28,7 @@ Using two types of Keys & Secrets. One is for Co-Routines and another is for RxJ
 - Implementing new UI like `SwipeRefreshLayout`, `FabButton`, Some new activity/fragment for more details
 - Finding and Fixing bugs
 - `Koin` for dependency injection
+- Testing
 
 #### References -
 - [Async_with__Kotlin_Coroutines](https://speakerdeck.com/0xalihn/async-with-kotlin-coroutines)
