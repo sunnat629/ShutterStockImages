@@ -11,15 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.android.AndroidInjection
 import dev.sunnat629.shutterstockimages.R
 import dev.sunnat629.shutterstockimages.RootApplication
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
 import dev.sunnat629.shutterstockimages.models.networks.Status
 import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
+import dev.sunnat629.shutterstockimages.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
 import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
 
 /**
@@ -33,6 +36,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  */
 class MainActivity : AppCompatActivity() {
 
+    @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var imageAdapter: ImageAdapter
 
@@ -45,9 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AndroidInjection.inject(this)
         setContentView(R.layout.activity_main)
-        RootApplication.getComponent(application).inject(this)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         initToolbar()
         initButtons()
