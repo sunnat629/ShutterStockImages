@@ -1,9 +1,8 @@
 package dev.sunnat629.shutterstockimages.ui
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations.switchMap
+import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import dev.sunnat629.shutterstockimages.DSConstants.INITIAL_LOAD_SIZE
@@ -13,8 +12,6 @@ import dev.sunnat629.shutterstockimages.models.datasource.DataSourceFactory
 import dev.sunnat629.shutterstockimages.models.datasource.ImageDataSource
 import dev.sunnat629.shutterstockimages.models.entities.ImageContent
 import dev.sunnat629.shutterstockimages.models.networks.NetworkState
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
 /**
@@ -22,26 +19,11 @@ import javax.inject.Inject
  * This is the view model class of the main activity. It will contains all the data of the actions
  * and provide to the activity.
  *
- * @param application is a application context which is helpful if there is any require context
- * to get a system service or have a similar requirement.
+ * @param dataSourceFactory responsible for retrieving the data using the DataSource and PagedList configuration.
  * */
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-
-
-    /**
-     * This mutable variable is {@code @Injected} and defines a scope for new coroutines. Every coroutine builder is an extension on
-     * CoroutineScope and inherits its coroutineContext to automatically propagate both context
-     * elements and cancellation.
-     * */
-    @Inject
-    lateinit var scope: CoroutineScope
-
-    /**
-     * This mutable variable is {@code @Injected} and responsible for retrieving the data using the DataSource and
-     * PagedList configuration.
-     * */
-    @Inject
-    lateinit var dataSourceFactory: DataSourceFactory
+class MainViewModel @Inject constructor(
+    private val dataSourceFactory: DataSourceFactory
+) : ViewModel() {
 
     /**
      * This immutable variable contains the image data after fetching from.
@@ -65,7 +47,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * DataSourceFactory.
      * */
     init {
-        RootApplication.getComponent(application).inject(this)
         imageSearchList = LivePagedListBuilder(dataSourceFactory, config).build()
     }
 
@@ -105,6 +86,5 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      * */
     override fun onCleared() {
         super.onCleared()
-        scope.cancel()
     }
 }

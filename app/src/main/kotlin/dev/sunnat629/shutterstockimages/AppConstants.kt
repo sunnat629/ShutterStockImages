@@ -7,6 +7,9 @@ package dev.sunnat629.shutterstockimages
 object DSConstants {
     const val RATE_LIMIT_CODE = 429
     const val HEADER_AUTHORIZATION = "Authorization"
+    const val CONNECT_TIMEOUT = 30L
+    const val WRITE_TIMEOUT = 30L
+    const val READ_TIMEOUT = 30L
     const val FIRST_PAGE = 1
     const val PAGE_SIZE = 30
     const val INITIAL_LOAD_SIZE = PAGE_SIZE * 2

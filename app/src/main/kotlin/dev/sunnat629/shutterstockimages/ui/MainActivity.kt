@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,6 +21,7 @@ import dev.sunnat629.shutterstockimages.ui.adapters.ImageAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_network_state.*
 import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
 
 /**
@@ -32,6 +34,9 @@ import kotlinx.android.synthetic.main.toolbar.*
  * @since   8 September 2019
  */
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: MainViewModel
     private lateinit var imageAdapter: ImageAdapter
@@ -47,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RootApplication.getComponent(application).inject(this)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         initToolbar()
         initButtons()

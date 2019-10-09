@@ -13,7 +13,7 @@ package dev.sunnat629.shutterstockimages.models.entities
  * @param description is a summery or caption of this image,
  * @param image_type contains the format or type of this Image; Like - Vector, PNG etc.,
  * @param media_type contains the type of this data; Like - Image, Video, Audio etc.,
- * @param url is the URL link of this image in the ShutterStock site.
+ * @param has_model_release is the Model releases govern how an image featuring a recognizable individual may be used.
  * */
 data class ImageContent(
     val id: String,
@@ -23,5 +23,5 @@ data class ImageContent(
     val description: String,
     val image_type: String,
     val media_type: String,
-    val url: String
+    val has_model_release: Boolean
 )

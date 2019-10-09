@@ -1,7 +1,6 @@
 package dev.sunnat629.shutterstockimages.di.components
 
 import dev.sunnat629.shutterstockimages.ui.MainActivity
-import dev.sunnat629.shutterstockimages.ui.MainViewModel
 
 /**
  * AppComponent.kt
@@ -9,9 +8,5 @@ import dev.sunnat629.shutterstockimages.ui.MainViewModel
  * */
 interface AppComponent {
 
-    // inject functions are for activities and viewModels
-
     fun inject(activity: MainActivity)
-
-    fun inject(viewModel: MainViewModel)
 }

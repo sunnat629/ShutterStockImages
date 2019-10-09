@@ -6,6 +6,7 @@ import dagger.Component
 import dev.sunnat629.shutterstockimages.di.modules.NetworkModule
 import dev.sunnat629.shutterstockimages.di.modules.OthersModule
 import dev.sunnat629.shutterstockimages.di.modules.ServiceModule
+import dev.sunnat629.shutterstockimages.di.modules.ViewModelModule
 import javax.inject.Singleton
 
 /**
@@ -22,7 +23,8 @@ import javax.inject.Singleton
     modules = [
         NetworkModule::class,
         ServiceModule::class,
-        OthersModule::class
+        OthersModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponentDefault : AppComponent {

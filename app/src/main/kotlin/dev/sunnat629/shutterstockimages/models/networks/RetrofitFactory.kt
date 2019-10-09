@@ -2,6 +2,9 @@ package dev.sunnat629.shutterstockimages.models.networks
 
 import dev.sunnat629.shutterstockimages.BuildConfig
 import dev.sunnat629.shutterstockimages.BuildConfig.BASE_URL
+import dev.sunnat629.shutterstockimages.DSConstants.CONNECT_TIMEOUT
+import dev.sunnat629.shutterstockimages.DSConstants.READ_TIMEOUT
+import dev.sunnat629.shutterstockimages.DSConstants.WRITE_TIMEOUT
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,9 +23,9 @@ object RetrofitFactory {
      * This function returns an OkHttpClient.Builder
      * */
     fun createClientBuilder(): OkHttpClient.Builder {
-        val clientBuilder = OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+        val clientBuilder = OkHttpClient.Builder().connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
         if (BuildConfig.DEBUG) {

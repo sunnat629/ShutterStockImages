@@ -13,5 +13,7 @@ data class Assets(
     val preview: Thumbs,
     val small_thumb: Thumbs,
     val large_thumb: Thumbs,
-    val huge_thumb: Thumbs
+    val huge_thumb: Thumbs,
+    val preview_1000: Thumbs,
+    val preview_1500: Thumbs
 )
